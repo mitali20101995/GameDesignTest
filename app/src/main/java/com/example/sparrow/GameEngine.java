@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
@@ -40,16 +41,26 @@ public class GameEngine extends SurfaceView implements Runnable {
     // SPRITES
     Square bullet;
     int SQUARE_WIDTH = 100;
+    Point cagePosition;
+
 
     Square enemy;
 
     Sprite player;
     Sprite sparrow;
+    Sprite cat;
+    //Sprite cage;
 
     ArrayList<Square> bullets = new ArrayList<Square>();
 
     // GAME STATS
     int score = 0;
+
+    final int DISTANCE_FROM_BOTTOM = 750;
+    final int CAGE_WIDTH = 150;
+    final int CAGE_HEIGHT = 50;
+
+
 
     public GameEngine(Context context, int screenW, int screenH) {
         super(context);
@@ -62,16 +73,25 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.screenWidth = screenW;
         this.screenHeight = screenH;
 
+
+
+
         // setup visible game play area variables
         this.VISIBLE_LEFT = 20;
         this.VISIBLE_TOP = 10;
         this.VISIBLE_RIGHT = this.screenWidth - 20;
         this.VISIBLE_BOTTOM = (int) (this.screenHeight * 0.8);
 
+        // set initial position
+        cagePosition = new Point();
+
+
 
         // initalize sprites
         this.player = new Sprite(this.getContext(), 100, 700, R.drawable.player64);
         this.sparrow = new Sprite(this.getContext(), 500, 200, R.drawable.bird64);
+        this.cat = new Sprite(this.getContext(), 1574,664,R.drawable.cat64);
+
     }
 
     @Override
@@ -130,6 +150,16 @@ public class GameEngine extends SurfaceView implements Runnable {
             // 2. sparrow
             canvas.drawBitmap(this.sparrow.getImage(), this.sparrow.getxPosition(), this.sparrow.getyPosition(), paintbrush);
 
+
+            //cat
+            canvas.drawBitmap(this.cat.getImage(),this.cat.getxPosition(), this.cat.getyPosition(), paintbrush);
+
+            //Draw the sprites rectangle cage
+            int cageLeft = (this.screenWidth) - CAGE_WIDTH;
+            int cageTop = (this.screenHeight - DISTANCE_FROM_BOTTOM - CAGE_HEIGHT);
+            int cageRight = (this.screenWidth) + CAGE_WIDTH;
+            int cageBottom = (this.screenHeight - DISTANCE_FROM_BOTTOM);
+            canvas.drawRect(cageLeft, cageTop, cageRight, cageBottom, paintbrush);
             // --------------------------------------------------------
             // draw hitbox on player
             // --------------------------------------------------------
