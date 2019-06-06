@@ -128,7 +128,7 @@ public class GameEngine extends SurfaceView implements Runnable {
                             movingRightCage = false;
             }
 
-            else if (cagePosition.x < 0) {
+            if (cagePosition.x < 0) {
                             Log.d(TAG, "Cage reached left of screen. Changing direction!");
                             movingRightCage = true;
             }
@@ -153,7 +153,7 @@ public class GameEngine extends SurfaceView implements Runnable {
                 movingRightCat = false;
             }
 
-            if (cagePosition.x < 0) {
+            if (catx < 0) {
                 Log.d(TAG, "Cat reached left of screen. Changing direction!");
                 movingRightCat = true;
             }
