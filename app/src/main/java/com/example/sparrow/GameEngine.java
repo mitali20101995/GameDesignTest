@@ -60,9 +60,10 @@ public class GameEngine extends SurfaceView implements Runnable {
     final int CAGE_WIDTH = 250;
     final int CAGE_HEIGHT = 200;
 
-    boolean movingRight = true;
-    final int CAGE_SPEED = 200;
-    final int CAT_SPEED = 150;
+    boolean movingRightCat = true;
+    boolean movingRightCage = true;
+    final int CAGE_SPEED = 150;
+    final int CAT_SPEED = 140;
 
     public GameEngine(Context context, int screenW, int screenH) {
         super(context);
@@ -108,50 +109,55 @@ public class GameEngine extends SurfaceView implements Runnable {
     // Game Loop methods
     public void updateGame() {
 
-        int catX = this.cat.getxPosition();
+            int catX = this.cat.getxPosition();
 
-
-        if (movingRight == true)
-        {
-                        cagePosition.x = cagePosition.x + CAGE_SPEED;
-        }
-        else
+            //CAGE
+            if (movingRightCage == true)
             {
-                        cagePosition.x = cagePosition.x - CAGE_SPEED;
+                            cagePosition.x = cagePosition.x + CAGE_SPEED;
             }
-        // @TODO: Collision detection code
-        if (cagePosition.x > screenWidth) {
-                        Log.d(TAG, "Cage reached right of screen. Changing direction!");
-                        movingRight = false;
-        }
 
-        if (cagePosition.x < 0) {
-                        Log.d(TAG, "Cage reached left of screen. Changing direction!");
-                        movingRight = true;
-        }
+            else
+                {
+                            cagePosition.x = cagePosition.x - CAGE_SPEED;
+                }
+
+            //  Collision detection code
+            if (cagePosition.x > screenWidth) {
+                            Log.d(TAG, "Cage reached right of screen. Changing direction!");
+                            movingRightCage = false;
+            }
+
+            else if (cagePosition.x < 0) {
+                            Log.d(TAG, "Cage reached left of screen. Changing direction!");
+                            movingRightCage = true;
+            }
 
 
-                        Log.d(TAG, "Cage x-position: " + cagePosition.x);
+            Log.d(TAG, "Cage x-position: " + cagePosition.x);
 
-        if (movingRight == true)
-        {
-            catX = catX + CAT_SPEED;
-        }
-        else
-        {
-            catX = catX - CAT_SPEED;
-        }
-        // @TODO: Collision detection code
-        if (catX > screenWidth) {
-            Log.d(TAG, "Cat reached right of screen. Changing direction!");
-            movingRight = false;
-        }
 
-        if (cagePosition.x < 0) {
-            Log.d(TAG, "Cat reached left of screen. Changing direction!");
-            movingRight = true;
-        }
-        Log.d(TAG, "Cat x-position: " + catX);
+
+            //cat
+            if (movingRightCat == true)
+            {
+                catX = catX + CAT_SPEED;
+            }
+            else
+            {
+                catX = catX - CAT_SPEED;
+            }
+            //  Collision detection code
+            if (catX > (screenWidth / 3)) {
+                Log.d(TAG, "Cat reached right of screen. Changing direction!");
+                movingRightCat = false;
+            }
+
+            if (cagePosition.x < 0) {
+                Log.d(TAG, "Cat reached left of screen. Changing direction!");
+                movingRightCat = true;
+            }
+            Log.d(TAG, "Cat x-position: " + catX);
     }
 
 
